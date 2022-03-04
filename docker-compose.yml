@@ -1,0 +1,27 @@
+version: '3.7'
+
+services:
+
+  mysql-anwalt:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: GCECjdRLf7RvwJLJ
+    volumes:
+      - ./docker/db:/docker-entrypoint-initdb.d
+      - anwalt-data:/var/lib/mysql
+
+  phpmyadmin-real:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      PMA_HOSTS: mysql-anwalt
+      PMA_PASSWORD: GCECjdRLf7RvwJLJ
+      PMA_USER: root
+    ports:
+      - "81:80"
+    depends_on:
+      - mysql-anwalt
+
+volumes:
+  anwalt-data:
+#    external:
+#      name: anwalt-db
