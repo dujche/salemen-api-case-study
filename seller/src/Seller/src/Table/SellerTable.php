@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Seller\Table;
 
+use Dujche\MezzioHelperLib\Entity\EntityInterface;
 use Laminas\Db\Adapter\AdapterInterface;
 use Laminas\Db\Adapter\Driver\ResultInterface;
 use Laminas\Db\ResultSet\HydratingResultSet;
@@ -28,7 +29,7 @@ class SellerTable extends TableGateway
         $this->hydrator = $hydrator;
     }
 
-    public function add(SellerEntity $sellerEntity): bool
+    public function add(EntityInterface $sellerEntity): bool
     {
         $data = $this->hydrator->extract($sellerEntity);
 

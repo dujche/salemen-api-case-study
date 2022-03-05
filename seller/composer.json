@@ -41,9 +41,16 @@
             ]
         }
     },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/dujche/mezzio-helper-lib.git"
+        }
+    ],
     "require": {
         "php": "^7.4 || ~8.0.0 || ~8.1.0",
         "composer/package-versions-deprecated": "^1.10.99",
+        "dujche/mezzio-helper-lib": "^0.0.3",
         "laminas/laminas-component-installer": "^2.6",
         "laminas/laminas-config-aggregator": "^1.6",
         "laminas/laminas-db": "^2.13",
@@ -67,14 +74,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Seller\\": "src/Seller/src/",
-            "System\\": "src/System/src/"
+            "Seller\\": "src/Seller/src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "SellerTest\\": "test/SellerTest/",
-            "SystemTest\\": "test/SystemTest/"
+            "SellerTest\\": "test/SellerTest/"
         }
     },
     "scripts": {

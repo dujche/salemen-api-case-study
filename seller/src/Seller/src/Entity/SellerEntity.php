@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Seller\Entity;
 
 use DateTime;
+use Dujche\MezzioHelperLib\Entity\EntityInterface;
 
-class SellerEntity
+class SellerEntity implements EntityInterface
 {
     private int $id;
 

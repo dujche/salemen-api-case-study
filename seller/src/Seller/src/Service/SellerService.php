@@ -2,10 +2,14 @@
 
 namespace Seller\Service;
 
+use Dujche\MezzioHelperLib\Entity\EntityInterface;
+use Dujche\MezzioHelperLib\Exception\DuplicateRecordException;
+use Dujche\MezzioHelperLib\Service\AddHandlerInterface;
+use Laminas\Db\Adapter\Exception\InvalidQueryException;
 use Seller\Entity\SellerEntity;
 use Seller\Table\SellerTable;
 
-class SellerService
+class SellerService implements AddHandlerInterface
 {
     private SellerTable $sellerTable;
 
@@ -14,9 +18,16 @@ class SellerService
         $this->sellerTable = $sellerTable;
     }
 
-    public function add(SellerEntity $sellerEntity): bool
+    /**
+     * @throws DuplicateRecordException
+     */
+    public function add(EntityInterface $entity): bool
     {
-        return $this->sellerTable->add($sellerEntity);
+        try {
+            return $this->sellerTable->add($entity);
+        } catch (InvalidQueryException $invalidQueryException) {
+            throw new DuplicateRecordException($invalidQueryException->getMessage());
+        }
     }
 
     public function getAll(): array

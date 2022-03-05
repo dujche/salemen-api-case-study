@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace Seller;
 
+use Dujche\MezzioHelperLib\Error\CustomErrorHandlerMiddleware;
+use Dujche\MezzioHelperLib\Middleware\CreatePayloadValidationMiddleware;
 use Laminas\Log\LoggerInterface;
 use Laminas\ServiceManager\AbstractFactory\ConfigAbstractFactory;
 use Seller\Entity\SellerEntityHydrator;
-use Seller\Error\CustomErrorHandlerMiddleware;
 use Seller\Filter\CreateSellerPayloadFilter;
 use Seller\Handler\GetSellerHandler;
 use Seller\Handler\PostSellerHandler;
-use Seller\Middleware\CreateSellerPayloadValidationMiddleware;
 use Seller\Service\SellerService;
 use Seller\Table\SellerTable;
 
@@ -48,7 +48,7 @@ class ConfigProvider
                 SellerService::class => ConfigAbstractFactory::class,
                 GetSellerHandler::class => ConfigAbstractFactory::class,
                 PostSellerHandler::class => ConfigAbstractFactory::class,
-                CreateSellerPayloadValidationMiddleware::class => ConfigAbstractFactory::class,
+                CreatePayloadValidationMiddleware::class => ConfigAbstractFactory::class,
                 CustomErrorHandlerMiddleware::class => ConfigAbstractFactory::class,
             ]
         ];
@@ -72,7 +72,7 @@ class ConfigProvider
                 SellerService::class,
                 LoggerInterface::class,
             ],
-            CreateSellerPayloadValidationMiddleware::class => [
+            CreatePayloadValidationMiddleware::class => [
                 CreateSellerPayloadFilter::class,
                 LoggerInterface::class,
             ],

@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use Dujche\MezzioHelperLib\Error\CustomErrorHandlerMiddleware;
 use Laminas\Stratigility\Middleware\ErrorHandler;
 use Mezzio\Application;
 use Mezzio\Handler\NotFoundHandler;
@@ -14,7 +15,6 @@ use Mezzio\Router\Middleware\ImplicitOptionsMiddleware;
 use Mezzio\Router\Middleware\MethodNotAllowedMiddleware;
 use Mezzio\Router\Middleware\RouteMiddleware;
 use Psr\Container\ContainerInterface;
-use Seller\Error\CustomErrorHandlerMiddleware;
 
 /**
  * Setup middleware pipeline:

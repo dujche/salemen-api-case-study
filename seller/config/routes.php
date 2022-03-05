@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
+use Dujche\MezzioHelperLib\Middleware\CreatePayloadValidationMiddleware;
 use Mezzio\Application;
 use Mezzio\MiddlewareFactory;
 use Psr\Container\ContainerInterface;
 use Seller\Handler\GetSellerHandler;
 use Seller\Handler\PostSellerHandler;
-use Seller\Middleware\CreateSellerPayloadValidationMiddleware;
 
 /**
  * FastRoute route configuration
@@ -47,7 +47,7 @@ return static function (Application $app, MiddlewareFactory $factory, ContainerI
     $app->post(
         '/sellers',
         [
-            CreateSellerPayloadValidationMiddleware::class,
+            CreatePayloadValidationMiddleware::class,
             PostSellerHandler::class
         ],
         'api.order.post'

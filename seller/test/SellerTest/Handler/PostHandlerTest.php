@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SellerTest\Handler;
 
+use Dujche\MezzioHelperLib\Exception\DuplicateRecordException;
+use Dujche\MezzioHelperLib\Exception\RuntimeException;
 use JsonException;
 use Laminas\Db\Adapter\Exception\InvalidQueryException;
 use Laminas\Diactoros\Response\EmptyResponse;
@@ -11,12 +13,10 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ServerRequestInterface;
-use Seller\Entity\SellerEntity;
-use Seller\Exception\RuntimeException;
 use Seller\Handler\PostSellerHandler;
 use Seller\Service\SellerService;
 
-class PostSellerHandlerTest extends TestCase
+class PostHandlerTest extends TestCase
 {
     private SellerService $sellerService;
 
@@ -47,7 +47,7 @@ class PostSellerHandlerTest extends TestCase
             ]);
 
         $this->sellerService->expects($this->once())->method('add')
-            ->willThrowException(new InvalidQueryException('foo'));
+            ->willThrowException(new DuplicateRecordException('foo'));
 
         $postSellerHandler = new PostSellerHandler($this->sellerService, $this->logger);
         $response = $postSellerHandler->handle($requestMock);
