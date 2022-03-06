@@ -1,0 +1,3 @@
+uuid;seller_id;seller_firstname;seller_lastname;date_joined;country;contact_region;contact_date;contact_customer_fullname;contact_type;contact_product_type_offered_id;contact_product_type_offered;sale_net_amount;sale_gross_amount;sale_tax_rate;sale_product_total_cost
+8a419b28-267f-49c4-b652-d0433d20fef4;23;Hans;Müller;2018-08-17;DE;Thüringen;2021-12-04;Peter Grayson;Phone;122;Canned sausages;293.12;367.30;0.19;187.23
+34ce1e6f-9db6-4a8b-bd64-fc87a68e6f03;21;Manfred;Schmidt;2015-12-01;DE;Bayern;2021-12-03;Stefan Herold;E-Mail;156;Spätzle;;;;
