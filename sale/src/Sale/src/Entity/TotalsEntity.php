@@ -10,6 +10,8 @@ class TotalsEntity implements EntityInterface
 {
     private int $year;
 
+    private int $numberOfRecords;
+
     private float $netAmount;
 
     private float $grossAmount;
@@ -32,6 +34,22 @@ class TotalsEntity implements EntityInterface
     public function setYear($year): void
     {
         $this->year = (int) $year;
+    }
+
+    /**
+     * @return int
+     */
+    public function getNumberOfRecords(): int
+    {
+        return $this->numberOfRecords;
+    }
+
+    /**
+     * @param $numberOfRecords
+     */
+    public function setNumberOfRecords($numberOfRecords): void
+    {
+        $this->numberOfRecords = (int) $numberOfRecords;
     }
 
     /**
@@ -102,10 +120,13 @@ class TotalsEntity implements EntityInterface
     {
         return [
             'year' => $this->year,
+            'numberOfRecords' => $this->numberOfRecords,
             'netAmount' => $this->netAmount,
             'grossAmount' => $this->grossAmount,
             'taxAmount' => $this->taxAmount,
             'profit' => $this->profit,
+            'profitPercentage' =>
+                (float) number_format(($this->profit / $this->netAmount) * 100, 2)
         ];
     }
 }

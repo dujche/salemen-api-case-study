@@ -48,6 +48,7 @@ class TotalsTable extends TableGateway
         $update = $this->getSql()->update();
         $update->set(
             [
+                'number_of_records' => $existingYearData->getNumberOfRecords() + 1,
                 'net_amount' => $existingYearData->getNetAmount() + $totalsEntity->getNetAmount(),
                 'gross_amount' => $existingYearData->getGrossAmount() + $totalsEntity->getGrossAmount(),
                 'tax_amount' => $existingYearData->getTaxAmount() + $totalsEntity->getTaxAmount(),

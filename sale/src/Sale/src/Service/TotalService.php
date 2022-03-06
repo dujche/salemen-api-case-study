@@ -27,6 +27,7 @@ class TotalService implements AddHandlerInterface
     {
         $totalEntity = new TotalsEntity();
         $totalEntity->setYear((int)$entity->getSaleDate()->format('Y'));
+        $totalEntity->setNumberOfRecords(1);
         $totalEntity->setNetAmount($entity->getSaleNetAmount());
         $totalEntity->setGrossAmount($entity->getSaleGrossAmount());
         $totalEntity->setTaxAmount($entity->getSaleGrossAmount() - $entity->getSaleNetAmount());

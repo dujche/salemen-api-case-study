@@ -66,7 +66,7 @@ class GetTotalsHandlerTest extends TestCase
 
         $this->assertInstanceOf(JsonResponse::class, $result);
         $this->assertEquals(
-            '{"totals":{"year":2020,"netAmount":22.33,"grossAmount":33.44,"taxAmount":0.11,"profit":12.33},"items":[{"uuid":"620b9dcb-d751-4d77-a7e4-d4de97bd9ef3","sellerId":10,"saleNetAmount":22.33,"saleGrossAmount":33.44,"saleTaxRatePercentage":0.11,"saleProductTotalCost":12.33,"saleDate":"2020-01-01"}]}',
+            '{"totals":{"year":2020,"numberOfRecords":11,"netAmount":22.33,"grossAmount":33.44,"taxAmount":0.11,"profit":12.33,"profitPercentage":55.22},"items":[{"uuid":"620b9dcb-d751-4d77-a7e4-d4de97bd9ef3","sellerId":10,"saleNetAmount":22.33,"saleGrossAmount":33.44,"saleTaxRatePercentage":0.11,"saleProductTotalCost":12.33,"saleDate":"2020-01-01"}]}',
             $result->getBody()->getContents()
         );
     }
