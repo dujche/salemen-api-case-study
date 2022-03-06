@@ -1,0 +1,30 @@
+FROM php:7.4-cli AS development
+
+RUN apt-get update && apt-get install -y \
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libpng-dev \
+        libcurl4-gnutls-dev \
+        libzip-dev \
+        zip \
+        git \
+    && docker-php-ext-configure pdo_mysql \
+    && docker-php-ext-configure sockets \
+    && docker-php-ext-configure curl \
+    && docker-php-ext-install -j$(nproc) pdo_mysql \
+    && docker-php-ext-install -j$(nproc) sockets \
+    && docker-php-ext-install -j$(nproc) curl
+
+COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
+
+WORKDIR /var/www/html
+
+FROM development AS parser-worker
+
+COPY ./csv-parser/ /var/www/html/
+
+RUN composer install --no-dev && composer dump-autoload
+
+WORKDIR /var/www/html/vendor/bin
+
+CMD [ "laminas", "parser:parse" ]

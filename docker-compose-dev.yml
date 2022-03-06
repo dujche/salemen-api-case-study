@@ -5,49 +5,67 @@ services:
   php-seller-api:
     build:
       context: ./
-      target: seller-api
+      target: development
+    volumes:
+      - ./seller:/var/www/html
     environment:
        XDEBUG_MODE: coverage
     depends_on:
       - mysql-anwalt
+    command: >
+      sh -c "composer install && composer dump-autoload && apachectl -D FOREGROUND"
 
   php-contact-api:
     build:
       context: ./
-      target: contact-api
+      target: development
+    volumes:
+      - ./contact:/var/www/html
     environment:
       XDEBUG_MODE: coverage
     depends_on:
       - mysql-anwalt
+    command: >
+      sh -c "composer install && composer dump-autoload && apachectl -D FOREGROUND"
 
   php-sale-api:
     build:
       context: ./
-      target: sale-api
+      target: development
+    volumes:
+      - ./sale:/var/www/html
     environment:
       XDEBUG_MODE: coverage
     depends_on:
       - mysql-anwalt
+    command: >
+      sh -c "composer install && composer dump-autoload && apachectl -D FOREGROUND"
 
   php-csv-parser-api:
     build:
       context: ./
-      target: parser-api
+      target: development
+    volumes:
+      - ./csv-parser:/var/www/html
     environment:
       XDEBUG_MODE: coverage
     depends_on:
       - mysql-anwalt
+    command: >
+      sh -c "composer install && composer dump-autoload && apachectl -D FOREGROUND"
 
   php-csv-parser-worker:
     build:
       context: ./
+      target: development
       dockerfile: Dockerfile.parser.worker
-      target: parser-worker
+    volumes:
+      - ./csv-parser:/var/www/html
     restart: on-failure
     depends_on:
       - mysql-anwalt
     command: >
-      sh -c "./laminas parser:parse"
+      sh -c "composer install && composer dump-autoload && cd vendor/bin && ./laminas parser:parse"
 
   nginx-anwalt:
     image: nginx:latest
