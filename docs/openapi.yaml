@@ -1,0 +1,351 @@
+openapi: 3.0.1
+info:
+  title: Salemen API
+  version: "v1"
+externalDocs:
+  description: API Techincal Requirements
+  url: 'https://github.com/AnwaltdeRepo/developer-test'
+servers:
+  - url: 'http://localhost:8000'
+    description: Development system
+tags:
+  - name: Seller API
+  - name: Sale API
+  - name: Data Parser API
+paths:
+  /load:
+    post:
+      tags:
+        - Data Parser API
+      summary: Upload new file with data in csv format
+      description: "Example <br/><br/> curl -X POST 'http://localhost:8000/load' -H 'content-type: application/x-www-form-urlencoded' --data-binary '@/path/to/file/filename.csv'"
+      responses:
+        '201':
+          description: OK
+        '400':
+          description: One or more invalid parameters
+        '500':
+          description: Internal Server Error
+
+  /sellers/{id}:
+    get:
+      tags:
+        - Seller API
+      summary: Seller Details
+      description: The details about the given seller.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the Seller to get information about.
+          example: 1234
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SellerResponse'
+        '404':
+          description: No seller with given ID found
+        '500':
+          description: Internal Server Error
+  /sellers/{id}/contacts:
+    get:
+      tags:
+        - Seller API
+      summary: Seller's Contacts Details
+      description: The details about the contacts of the given seller.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the Seller to get information about.
+          example: 1234
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactResponse'
+        '500':
+          description: Internal Server Error
+  /sellers/{id}/sales:
+    get:
+      tags:
+        - Seller API
+      summary: Seller's Sales Details
+      description: The details about the sales of the given seller.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: integer
+          description: The ID of the Seller to get information about.
+          example: 1234
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SaleResponse'
+        '500':
+          description: Internal Server Error
+  /sales/{year}:
+    get:
+      tags:
+        - Sale API
+      summary: Sales for the particular year
+      description: The details about the sales for the given year.
+      parameters:
+        - in: path
+          name: year
+          required: true
+          schema:
+            type: integer
+          description: Year filter
+          example: 2020
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/YearSaleResponse'
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    SellerResponse:
+      title: /sellers/id response
+      type: object
+      required:
+        - id
+        - firstName
+        - lastName
+        - country
+        - dateJoined
+      properties:
+        id:
+          $ref: '#/x-params/id'
+        firstName:
+          $ref: '#/x-params/firstName'
+        lastName:
+          $ref: '#/x-params/lastName'
+        country:
+          $ref: '#/x-params/country'
+        dateJoined:
+          $ref: '#/x-params/dateJoined'
+    ContactResponse:
+      title: /sellers/{id}/contacts response
+      type: array
+      items:
+        type: object
+        required:
+          - uuid
+          - sellerId
+          - fullName
+          - region
+          - contactType
+          - contactDate
+          - contactProductTypeOfferedId
+          - contactProductTypeOffered
+        properties:
+          uuid:
+            $ref: '#/x-params/uuid'
+          sellerId:
+            $ref: '#/x-params/id'
+          fullName:
+            $ref: '#/x-params/contactFullName'
+          region:
+            $ref: '#/x-params/region'
+          contactType:
+            $ref: '#/x-params/contactType'
+          contactDate:
+            $ref: '#/x-params/contactDate'
+          contactProductTypeOfferedId:
+            $ref: '#/x-params/contactProductTypeOfferedId'
+          contactProductTypeOffered:
+            $ref: '#/x-params/contactProductTypeOffered'
+    SaleResponse:
+      title: /sellers/{id}/sales response
+      type: array
+      items:
+        type: object
+        required:
+          - uuid
+          - sellerId
+          - saleNetAmount
+          - saleGrossAmount
+          - saleTaxRatePercentage
+          - saleProductTotalCost
+          - saleDate
+        properties:
+          uuid:
+            $ref: '#/x-params/uuid'
+          sellerId:
+            $ref: '#/x-params/id'
+          saleNetAmount:
+            $ref: '#/x-params/saleNetAmount'
+          saleGrossAmount:
+            $ref: '#/x-params/saleGrossAmount'
+          saleTaxRatePercentage:
+            $ref: '#/x-params/saleTaxRatePercentage'
+          saleProductTotalCost:
+            $ref: '#/x-params/saleProductTotalCost'
+          saleDate:
+            $ref: '#/x-params/contactDate'
+    TotalsResponse:
+      title: Sale totals response
+      type: object
+      required:
+        - year
+        - numberOfRecords
+        - netAmount
+        - grossAmount
+        - taxAmount
+        - profit
+        - profitPercentage
+      properties:
+        year:
+          $ref: '#/x-params/year'
+        numberOfRecords:
+          $ref: '#/x-params/numberOfRecords'
+        netAmount:
+          $ref: '#/x-params/netAmount'
+        grossAmount:
+          $ref: '#/x-params/grossAmount'
+        taxAmount:
+          $ref: '#/x-params/taxAmount'
+        profit:
+          $ref: '#/x-params/profit'
+        profitPercentage:
+          $ref: '#/x-params/profitPercentage'
+    YearSaleResponse:
+      title: /sales/{year} response
+      type: object
+      required:
+        - totals
+        - items
+      properties:
+        totals:
+          $ref: '#/components/schemas/TotalsResponse'
+        items:
+          $ref: '#/components/schemas/SaleResponse'
+
+x-params:
+  id:
+    type: integer
+    description: The ID of the Seller
+    example: 2413
+  firstName:
+    type: string
+    description: The first name of the seller
+    example: John
+    minLength: 1
+    maxLength: 50
+  lastName:
+    type: string
+    description: The last name of the seller
+    example: Doe
+    minLength: 1
+    maxLength: 50
+  country:
+    type: string
+    description: ISO 3166 ALPHA 2-letter country code of the sellers country
+    example: DE
+    minLength: 2
+    maxLength: 2
+  region:
+    type: string
+    description: Contact's Region
+    example: Hessen
+    minLength: 1
+    maxLength: 30
+  dateJoined:
+    type: date
+    description: Join date of the seller
+    example: 2020-01-01
+  uuid:
+    type: string
+    description: Unique ID of the single data record from the external system (import file)
+    example: 0055fcc6-4b2b-4386-a9cc-cc6c7e04d48b
+    minLength: 36
+    maxLength: 36
+  contactFullName:
+    type: string
+    description: The full name of the Contact
+    example: John Doe
+    minLength: 1
+    maxLength: 100
+  contactType:
+    type: string
+    description: The way Contact was reached
+    example: Email
+    minLength: 1
+    maxLength: 20
+  contactDate:
+    type: date
+    description: Date when the Contact was reached/Sale was made
+    example: 2020-01-01
+  contactProductTypeOfferedId:
+    type: integer
+    description: The ID of the product offered to Contact
+    example: 24
+  contactProductTypeOffered:
+    type: string
+    description: The product offered to Contact
+    example: Spätzle
+    minLength: 1
+    maxLength: 50
+  saleNetAmount:
+    type: float
+    description: Net amount of the particular Sale
+    example: 24.99
+  saleGrossAmount:
+    type: float
+    description: Gross amount of the particular Sale
+    example: 29.99
+  saleTaxRatePercentage:
+    type: float
+    description: Tax percentage of the particular Sale
+    example: 0.19
+  saleProductTotalCost:
+    type: float
+    description: Product initial cost related to the particular Sale
+    example: 19.99
+  year:
+    type: integer
+    description: The year in YYYY format
+    example: 2020
+  numberOfRecords:
+    type: integer
+    description: Number of Sales for the given year
+    example: 47
+  netAmount:
+    type: float
+    description: Total Net amount of the Sales for the given year
+    example: 2499.99
+  grossAmount:
+    type: float
+    description: Total Gross amount of the Sales for the given year
+    example: 2999.99
+  taxAmount:
+    type: float
+    description: Total Tax amount of the Sales for the given year
+    example: 599.19
+  profit:
+    type: float
+    description: Total Profit of the Sales for the given year (Gross amount - Tax - Product Cost)
+    example: 1999.99
+  profitPercentage:
+    type: float
+    description: Percentage of the Profit in Total Net amount
+    example: 20.99
