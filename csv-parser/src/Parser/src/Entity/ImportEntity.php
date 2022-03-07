@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Parser\Entity;
 
 use DateTime;
+use Dujche\MezzioHelperLib\Entity\EntityInterface;
 
-class ImportEntity
+class ImportEntity implements EntityInterface
 {
     private ?int $id = null;
 
@@ -57,5 +58,13 @@ class ImportEntity
     public function setImportedAt(DateTime $importedAt): void
     {
         $this->importedAt = $importedAt;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id,
+            'importedAt' => $this->importedAt->format('Y-m-d H:i:s')
+        ];
     }
 }

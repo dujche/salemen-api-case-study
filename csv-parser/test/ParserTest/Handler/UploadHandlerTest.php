@@ -57,6 +57,8 @@ class UploadHandlerTest extends TestCase
 
         $response = $this->handler->handle($this->request);
         $this->assertEquals(201, $response->getStatusCode());
+        $responseContents = json_decode($response->getBody()->getContents(), true);
+        $this->assertArrayHasKey('id', $responseContents);
+        $this->assertArrayHasKey('importedAt', $responseContents);
     }
 }
-
