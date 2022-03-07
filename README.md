@@ -36,7 +36,7 @@ Application configuration can be modified in the [{micro-service}/config/autoloa
 
 ## Available endpoints
 
-Please check the OpenAPI specification and static html documentation in the [docs](https://github.com/dujche/salesmen-api-case-study/blob/main/docs) folder.
+Please check the OpenAPI specification and [static html documentation](https://htmlpreview.github.io/?https://github.com/dujche/salesmen-api-case-study/blob/main/docs/redoc-static.html) in the [docs](https://github.com/dujche/salesmen-api-case-study/blob/main/docs) folder.
 
 ## Uploading csv files from command line
 
